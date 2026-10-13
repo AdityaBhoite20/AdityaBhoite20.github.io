@@ -10,7 +10,7 @@ export const site: SiteConfig = {
 };
 export const navItems = [{ id: 'about', label: 'About' }, { id: 'experience', label: 'Experience' }, { id: 'work', label: 'Projects' }, { id: 'toolkit', label: 'Toolkit' }, { id: 'beyond', label: 'Beyond' }, { id: 'progress', label: 'In the lab' }, { id: 'contact', label: 'Contact' }];
 export const copy = {
-  title: 'Aditya Bhoite — Data Science & ML Portfolio',
+  title: 'Aditya Bhoite',
   description: 'Aditya Bhoite, an Electronics & Computer Science graduate exploring Data Science, Machine Learning, and AI through practical projects.',
   status: 'Open to Data Science, Machine Learning & AI roles',
   heroTitle: 'From raw data to real intelligence.',
