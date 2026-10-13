@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { ArrowUpRight, Moon, Sun, Menu, ArrowRight } from "lucide-react";
 import { useLocation } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
@@ -35,6 +35,17 @@ export function Nav() {
   const active = useActiveSection(navItems.map((item) => item.id));
   const headerItems = navItems.filter((item) => item.id !== "beyond" && item.id !== "progress");
 
+  const handleSectionNavigation = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
+    if (location.pathname !== "/") return;
+
+    event.preventDefault();
+    if (id === "about") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   useEffect(() => {
     const updatePosition = () => setAtTop(window.scrollY <= 1);
     updatePosition();
@@ -60,6 +71,7 @@ export function Nav() {
                   key={item.id}
                   href={item.id === "about" ? "/" : `/#${item.id}`}
                   className="nav-link"
+                  onClick={(event) => handleSectionNavigation(event, item.id)}
                   aria-current={
                     location.pathname === "/" && active === item.id ? "location" : undefined
                   }
@@ -97,7 +109,10 @@ export function Nav() {
                     <a
                       href={item.id === "about" ? "/" : `/#${item.id}`}
                       key={item.id}
-                      onClick={() => setOpen(false)}
+                      onClick={(event) => {
+                        handleSectionNavigation(event, item.id);
+                        setOpen(false);
+                      }}
                     >
                       {item.label}
                     </a>
