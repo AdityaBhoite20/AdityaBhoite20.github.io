@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
 import { ArrowUpRight, Moon, Sun, Menu, ArrowRight } from "lucide-react";
-import { useLocation } from "@tanstack/react-router";
+import { useLocation, useNavigate } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -32,18 +32,28 @@ export function Nav() {
   const [open, setOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
   const active = useActiveSection(navItems.map((item) => item.id));
   const headerItems = navItems.filter((item) => item.id !== "beyond" && item.id !== "progress");
 
-  const handleSectionNavigation = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
-    if (location.pathname !== "/") return;
-
-    event.preventDefault();
+  const scrollToSection = (id: string) => {
     if (id === "about") {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const handleSectionNavigation = (event: MouseEvent<HTMLAnchorElement>, id: string, delay = 0) => {
+    event.preventDefault();
+    if (location.pathname === "/") {
+      if (delay) window.setTimeout(() => scrollToSection(id), delay);
+      else scrollToSection(id);
+      return;
+    }
+    void navigate({ to: "/" }).then(() => {
+      window.setTimeout(() => scrollToSection(id), delay || 100);
+    });
   };
 
   useEffect(() => {
@@ -110,8 +120,8 @@ export function Nav() {
                       href={item.id === "about" ? "/" : `/#${item.id}`}
                       key={item.id}
                       onClick={(event) => {
-                        handleSectionNavigation(event, item.id);
                         setOpen(false);
+                        handleSectionNavigation(event, item.id, 350);
                       }}
                     >
                       {item.label}
