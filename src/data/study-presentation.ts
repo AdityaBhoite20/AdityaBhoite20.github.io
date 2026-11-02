@@ -16,6 +16,10 @@ export const headlineStats: Record<string, Stat[]> = {
     { value: "~90%", label: "Training accuracy" },
     { value: "88%", label: "Validation accuracy" },
   ],
+  devresolve: [
+    { value: "0.952", label: "Recall@5 · 42 answerable questions" },
+    { value: "8 / 9", label: "Unanswerable questions refused" },
+  ],
 };
 export const glanceStats: Record<string, Stat[]> = {
   "financial-resilience": [
@@ -31,6 +35,11 @@ export const glanceStats: Record<string, Stat[]> = {
   "plant-disease": [
     { value: "~90%", label: "Training accuracy" },
     { value: "88%", label: "Validation accuracy" },
+  ],
+  devresolve: [
+    { value: "51", label: "Hand-written evaluation questions" },
+    { value: "0.952", label: "Recall@5 · 800-token hybrid search" },
+    { value: "8 / 9", label: "Unanswerable questions refused" },
   ],
 };
 export const studyLabels: Record<string, { label: string; phrase?: string; term?: Term }> = {

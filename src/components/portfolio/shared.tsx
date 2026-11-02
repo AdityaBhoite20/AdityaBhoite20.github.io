@@ -17,15 +17,15 @@ import { useActiveSection, useReducedMotion, useScrollProgress, useTheme } from 
 export function ThemeToggle() {
   const { dark, toggle } = useTheme();
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      className="min-h-11 min-w-11"
+    <button
+      type="button"
+      className="theme-toggle"
       onClick={toggle}
       aria-label={dark ? copy.lightTheme : copy.darkTheme}
+      aria-pressed={dark}
     >
       {dark ? <Sun size={17} /> : <Moon size={17} />}
-    </Button>
+    </button>
   );
 }
 export function Nav() {
@@ -41,7 +41,10 @@ export function Nav() {
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector<HTMLElement>(`main section#${id}`)?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
   };
 
   const handleSectionNavigation = (event: MouseEvent<HTMLAnchorElement>, id: string, delay = 0) => {

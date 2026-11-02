@@ -18,43 +18,48 @@ import { useActiveSection } from "./hooks";
 import { FigureSlot, StaticBarChart, DecodeText, TextLink } from "./shared";
 export default function CaseStudy({ project }: { project: Project }) {
   if (project.publicSummary) {
-    return <PlantDiseaseSummary project={project} />;
+    return <PublicProjectSummary project={project} />;
   }
   return <DetailedCaseStudy project={project} />;
 }
 
-function PlantDiseaseSummary({ project }: { project: Project }) {
+function PublicProjectSummary({ project }: { project: Project }) {
   const summary = project.publicSummary;
   if (!summary) {
-    throw new Error("Plant disease summary is missing.");
+    throw new Error("Public project summary is missing.");
   }
+  const stats = glanceStats[project.slug] ?? [];
+  const labels = project.publicSummaryLabels ?? plantDiseaseLabels;
 
   return (
     <div className="container study">
-      <a href="/#experience" className="text-link study-back">
+      <a
+        href={project.slug === "plant-disease" ? "/#experience" : "/#work"}
+        className="text-link study-back"
+      >
         <ArrowLeft size={16} />
-        Back to experience
+        {project.slug === "plant-disease" ? "Back to experience" : copy.back}
       </a>
       <header className="study-header">
-        <p className="mono project-domain">VJTI Centre of Excellence AI Lab</p>
+        <p className="mono project-domain">{project.publicSummaryOrganization ?? project.domain}</p>
         <h1>{project.title}</h1>
-        <p className="scope">
-          An internship project applying computer vision to plant disease detection.
-        </p>
+        <p className="scope">{project.publicSummaryIntro ?? project.problem}</p>
       </header>
-      <section className="study-glance" aria-label={studyCopy.glance}>
-        <p className="mono block-label">{studyCopy.glance}</p>
-        <dl>
-          {glanceStats[project.slug]?.map((stat) => (
-            <div key={stat.label}>
-              <dt className="mono stat-label">{stat.label}</dt>
-              <dd className="stat-value">{stat.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
+      {stats.length > 0 && (
+        <section className="study-glance" aria-label={studyCopy.glance}>
+          <p className="mono block-label">{studyCopy.glance}</p>
+          <dl>
+            {stats.map((stat) => (
+              <div key={stat.label}>
+                <dt className="mono stat-label">{stat.label}</dt>
+                <dd className="stat-value">{stat.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )}
       <section className="plant-summary" aria-label="Project overview">
-        {plantDiseaseLabels.map(([label, key]) => (
+        {labels.map(([label, key]) => (
           <article className="plant-summary-item" key={key}>
             <h2 className="mono block-label">{label}</h2>
             <p>{summary[key]}</p>

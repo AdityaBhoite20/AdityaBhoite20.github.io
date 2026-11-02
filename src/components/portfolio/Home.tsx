@@ -79,7 +79,7 @@ function ProjectRow({ project }: { project: Project }) {
           )}
           <div className="project-links">
             <Link className="text-link" to="/work/$slug" params={{ slug: project.slug }}>
-              {project.slug === "plant-disease" ? "Know more" : copy.readCase}
+              {project.linkLabel ?? copy.readCase}
               <ArrowRight size={16} />
             </Link>
             {project.repo && (

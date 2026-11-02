@@ -26,6 +26,12 @@ export interface StudyBlock {
   pending?: boolean;
   term?: "lore" | "no cap" | "plot twist";
 }
+export interface PublicSummary {
+  idea: string;
+  solution: string;
+  challenge: string;
+  result: string;
+}
 export interface Project {
   slug: string;
   index: string;
@@ -42,7 +48,11 @@ export interface Project {
   blocks: StudyBlock[];
   scope?: string;
   fastener?: "pin" | "tape";
-  publicSummary?: { idea: string; solution: string; challenge: string; result: string };
+  linkLabel?: string;
+  publicSummary?: PublicSummary;
+  publicSummaryOrganization?: string;
+  publicSummaryIntro?: string;
+  publicSummaryLabels?: [string, keyof PublicSummary][];
 }
 export const projects: Project[] = [
   {
@@ -288,6 +298,7 @@ export const projects: Project[] = [
     domain: "Computer Vision",
     type: "Internship project · VJTI CoE AI Lab",
     status: "Machine learning internship project",
+    linkLabel: "Know more",
     repo: "",
     problem: "Can computer vision help identify plant disease from leaf images?",
     source: "PlantVillage leaf image dataset",
@@ -307,6 +318,43 @@ export const projects: Project[] = [
         "Reached approximately 90% training accuracy and 88% validation accuracy on the PlantVillage dataset.",
     },
     blocks: [],
+  },
+  {
+    slug: "devresolve",
+    index: "04",
+    title: "DevResolve",
+    domain: "Retrieval-Augmented Generation / Developer Tools",
+    type: "Learning project · RAG assistant",
+    status: "Learning project",
+    repo: "https://github.com/AdityaBhoite20/DevResolve",
+    problem: "Can retrieval and citations ground LLM answers to Python and scikit-learn questions?",
+    source: "Official Python and scikit-learn documentation · 51 evaluation questions",
+    methods: ["RAG", "Vector search", "Hybrid search", "BM25"],
+    highlights: [
+      "Built a documentation assistant that answers with numbered citations and can abstain when evidence is weak.",
+      "Compared chunk sizes and vector vs. hybrid search; the selected setup reached 0.952 recall@5 on 42 answerable test questions.",
+    ],
+    tools: ["Python", "Streamlit", "Sentence Transformers", "PyTorch", "NumPy", "BM25", "pytest"],
+    blocks: [],
+    linkLabel: "Know more",
+    publicSummaryOrganization: "Python & scikit-learn documentation",
+    publicSummaryIntro:
+      "A hands-on project to learn how retrieval-augmented generation can ground answers in a focused documentation set.",
+    publicSummaryLabels: [
+      ["What I set out to learn", "idea"],
+      ["What I built", "solution"],
+      ["What I tested", "challenge"],
+      ["What the experiments showed", "result"],
+    ],
+    publicSummary: {
+      idea: "Explore whether retrieving relevant official documentation can make LLM answers to Python and scikit-learn questions more grounded.",
+      solution:
+        "Built a Streamlit assistant that searches local documentation with vector or hybrid (vector + BM25) retrieval, then returns concise LLM answers with numbered citations. It can refuse when the evidence score is too low.",
+      challenge:
+        "Compared chunk sizes and search strategies on 51 hand-written questions: 42 answerable and 9 that should be refused. Retrieval performance and the refusal threshold were measured against this set.",
+      result:
+        "The selected 800-token hybrid setup reached 0.952 recall@5 (40/42 answerable questions). At a 0.45 threshold, it refused 8/9 unanswerable questions and wrongly refused 2/42 answerable ones. The threshold was tuned on the same test set, so these results are optimistic; the project has no real users.",
+    },
   },
 ];
 export function getStudyBlocks(project: Project): StudyBlock[] {
