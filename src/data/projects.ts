@@ -323,7 +323,7 @@ export const projects: Project[] = [
     slug: "devresolve",
     index: "04",
     title: "DevResolve",
-    domain: "Retrieval-Augmented Generation / Developer Tools",
+    domain: "RAG(Retrieval-Augmented Generation) / Developer Tools",
     type: "Learning project · RAG assistant",
     status: "Learning project",
     repo: "https://github.com/AdityaBhoite20/DevResolve",
